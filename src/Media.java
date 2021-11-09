@@ -1,4 +1,59 @@
+import java.util.Date;
 
 public class Media {
+	private int id;
+	private String title;
+	private String type;
+	private Date releaseDate;
+	private Date rentedDate;
+	
+	public Media(int id, String title, String type, Date releaseDate) {
+		this.id = id;
+		this.title = title;
+		this.type = type;
+		this.releaseDate = releaseDate;
+		this.rentedDate = null;
+	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public Date getRentedDate() {
+		return rentedDate;
+	}
+
+	public void setRentedDate(Date rentedDate) {
+		this.rentedDate = rentedDate;
+	}
+	
+	
 }
