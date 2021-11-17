@@ -1,19 +1,36 @@
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-public class MediaGUI {
-	LinkedList<Media> media = new LinkedList<Media>();
-	PriorityQueue<Media> rented = new PriorityQueue<Media>();
+public class MediaGUI extends JPanel {
 	
-	 public static void main(String args[]) {
 
-	        //Creating the Frame
-	        JFrame frame = new JFrame("Media database");
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frame.setSize(400, 400);
+	private JTextField title;
+	private JTextField type;
+	private DateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+	private JFormattedTextField releaseDate;
+	private JButton submit;
+	private JButton reset;
+	private JLabel titleLabel;
+	private JLabel typeLabel;
+	private JLabel releaseLabel;
+
+
+
+	
+	 public MediaGUI() {
+
+		 	
+	        
 
 	        //Creating the MenuBar and adding components
 	        JMenuBar mb = new JMenuBar();
@@ -25,23 +42,73 @@ public class MediaGUI {
 	        m1.add(m11);
 	        
 
-	        //Creating the panel at bottom and adding components
-	        JPanel panel = new JPanel(); 
-	        JLabel label = new JLabel("Title");
-	        JTextField title = new JTextField(30); 
-	        JButton submit = new JButton("Submit");
-	        JButton reset = new JButton("Reset");
-	        panel.add(label); // Components Added using Flow Layout
-	        panel.add(title);
-	        panel.add(submit);
-	        panel.add(reset);
+	        // adding components
+	        titleLabel = new JLabel("Title");
+	        typeLabel = new JLabel("Type");
+	        releaseLabel = new JLabel("Release Date");
+	        title = new JTextField(30);
+	        type = new JTextField(6);
+	        releaseDate = new JFormattedTextField(format);
+	        releaseDate.setColumns(10);
+	        submit = new JButton("Submit");
+	        SubmitButtonListener sbl = new SubmitButtonListener();
+			submit.addActionListener(sbl);
+	        reset = new JButton("Reset");
+	        ResetButtonListener rbl = new ResetButtonListener();
+			reset.addActionListener(rbl);
+	        add(titleLabel); // Components Added using Flow Layout
+	        add(title);
+	        add(typeLabel);
+	        add(type);
+	        add(releaseLabel);
+	        add(releaseDate);
+	        add(submit);
+	        add(reset);
 
-
-	        //Adding Components to the frame.
-	        frame.getContentPane().add(BorderLayout.CENTER, panel);
-	        frame.getContentPane().add(BorderLayout.NORTH, mb);
-	        frame.setVisible(true);
+	        
 	    }
+	 
+	 class ResetButtonListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				title.setText("");
+				type.setText("");
+				releaseDate.setText("");
+		
+				
+				
+				
+				MediaGUI empty = new MediaGUI();
+				
+				
+			}
+			
+		}
+		
+		class SubmitButtonListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String a = title.getText();
+					String b = type.getText();
+					Date c = (Date) releaseDate.getValue();
+				
+				
+				
+				
+					Media media = new Media(a, b, c);
+					
+				
+				
+				}  catch (Exception e1) {
+					throw e1;
+				}
+				
+			}
 	 }
+}
+
 
 
