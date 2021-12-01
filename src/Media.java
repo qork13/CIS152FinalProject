@@ -2,10 +2,10 @@ import java.util.Date;
 
 public class Media {
 	
-	private String title;
-	private String type;
-	private Date releaseDate;
-	private Date rentedDate;
+	public String title;
+	public String type;
+	public Date releaseDate;
+	public Date rentedDate;
 	
 	public Media(String title, String type, Date releaseDate) {
 		

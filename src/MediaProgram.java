@@ -14,6 +14,7 @@ public class MediaProgram {
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
         
+        
 
 	}
 
