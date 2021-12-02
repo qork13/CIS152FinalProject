@@ -9,10 +9,11 @@ public class MediaProgram {
         JFrame frame = new JFrame("Media database");
         MediaGUI panel = new MediaGUI();
         frame.add(panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
+        
         
         
 

@@ -1,16 +1,16 @@
 import java.util.Date;
 
 public class Movie extends Media{
-	int runTime;
+	String runTime;
 	String format;
 	
-	public Movie(String title, String type, Date releaseDate, Date rentedDate, int runTime, String format) {
+	public Movie(String title, String type, Date releaseDate, Date rentedDate, String runTime, String format) {
 		super(title, type, releaseDate, rentedDate);
 		this.runTime = runTime;
 		this.format = format;
 	}
 
-	public int getRunTime() {
+	public String getRunTime() {
 		return runTime;
 	}
 
@@ -20,7 +20,7 @@ public class Movie extends Media{
 				+ ", releaseDate=" + releaseDate + ", rentedDate=" + rentedDate + "]";
 	}
 
-	public void setRunTime(int runTime) {
+	public void setRunTime(String runTime) {
 		this.runTime = runTime;
 	}
 
