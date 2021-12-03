@@ -9,7 +9,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
@@ -21,6 +24,7 @@ public class MediaGUI extends JPanel {
 	private String types[] = {"None Selected", "Game", "Movie"};
 	private DateFormat format = new SimpleDateFormat("MM-dd-yyyy");
 	private JFormattedTextField releaseDate;
+	private JFormattedTextField rentedDate;
 	private JTextField system;
 	private JTextField genre;
 	private JTextField runtime;
@@ -32,13 +36,17 @@ public class MediaGUI extends JPanel {
 	private JLabel titleLabel;
 	private JLabel typeLabel;
 	private JLabel releaseLabel;
+	private JLabel rentedLabel;
 	private JLabel systemLabel;
 	private JLabel genreLabel;
 	private JLabel runtimeLabel;
 	private JLabel formatLabel;
 	private JList list;
+	private JList queue;
 	private DefaultListModel listItems;
+	private DefaultListModel queueItems;
 	public MediaLinkedList ll = new MediaLinkedList();
+	public MediaPriorityQueue pq = new MediaPriorityQueue();
 
 
 
@@ -50,6 +58,7 @@ public class MediaGUI extends JPanel {
 	        titleLabel = new JLabel("Title");
 	        typeLabel = new JLabel("Type");
 	        releaseLabel = new JLabel("Release Date(MM-dd-yyyy");
+	        rentedLabel = new JLabel("Rented Date(MM-dd-yyyy");
 	        systemLabel = new JLabel("Game System");
 	        genreLabel = new JLabel("Genre");
 	        runtimeLabel = new JLabel("Runtime");
@@ -57,9 +66,10 @@ public class MediaGUI extends JPanel {
 	        
 	        title = new JTextField(30);
 	        type = new JComboBox(types);
-	        
 	        releaseDate = new JFormattedTextField(format);
 	        releaseDate.setColumns(10);
+	        rentedDate = new JFormattedTextField(format);
+	        rentedDate.setColumns(10);
 	        system = new JTextField(30);
 	        genre = new JTextField(20);
 	        runtime = new JTextField(10);
@@ -77,8 +87,8 @@ public class MediaGUI extends JPanel {
 			ViewListButtonListener vll = new ViewListButtonListener();
 			viewList.addActionListener(vll);
 			viewRented = new JButton("View Rented");
-		//	ViewRentedListener vrl = new ViewRentedListener();
-		//	viewRented.addActionListener(vrl);
+			ViewRentedButtonListener vrbl = new ViewRentedButtonListener();
+			viewRented.addActionListener(vrbl);
 			
 			// Components Added using Flow Layout
 			add(typeLabel, BorderLayout.NORTH);
@@ -88,6 +98,8 @@ public class MediaGUI extends JPanel {
 	        add(title);
 	        add(releaseLabel);
 	        add(releaseDate);
+	        add(rentedLabel);
+	        add(rentedDate);
 	        add(systemLabel);
 	        add(system);
 	        add(genreLabel);
@@ -108,6 +120,8 @@ public class MediaGUI extends JPanel {
 	        title.setVisible(false);
 	        releaseLabel.setVisible(false);
 	        releaseDate.setVisible(false);
+	        rentedLabel.setVisible(false);
+	        rentedDate.setVisible(false);
 	        systemLabel.setVisible(false);
 	        system.setVisible(false);
 	        genreLabel.setVisible(false);
@@ -134,6 +148,8 @@ public class MediaGUI extends JPanel {
 		        title.setVisible(true);
 		        releaseLabel.setVisible(true);
 		        releaseDate.setVisible(true);
+		        rentedLabel.setVisible(true);
+		        rentedDate.setVisible(true);
 		        systemLabel.setVisible(true);
 		        system.setVisible(true);
 		        genreLabel.setVisible(true);
@@ -151,6 +167,8 @@ public class MediaGUI extends JPanel {
 		        title.setVisible(true);
 		        releaseLabel.setVisible(true);
 		        releaseDate.setVisible(true);
+		        rentedLabel.setVisible(true);
+		        rentedDate.setVisible(true);
 		        systemLabel.setVisible(false);
 		        system.setVisible(false);
 		        genreLabel.setVisible(false);
@@ -165,6 +183,8 @@ public class MediaGUI extends JPanel {
 		        title.setVisible(false);
 		        releaseLabel.setVisible(false);
 		        releaseDate.setVisible(false);
+		        rentedLabel.setVisible(false);
+		        rentedDate.setVisible(false);
 		        systemLabel.setVisible(false);
 		        system.setVisible(false);
 		        genreLabel.setVisible(false);
@@ -202,7 +222,7 @@ public class MediaGUI extends JPanel {
 						String a = title.getText();
 						String b = type.getSelectedItem().toString();
 						Date c = (Date)releaseDate.getValue();
-						Date d = null;
+						Date d = (Date)rentedDate.getValue();
 						String f = system.getText();
 						String g = genre.getText();
 				
@@ -211,13 +231,17 @@ public class MediaGUI extends JPanel {
 				
 						Game game = new Game(a, b, c, d, f, g);
 						Node node = new Node(game);
-						ll.append(node);
+						if(game.getRentedDate() == null) {
+							ll.append(node);
+						} else {
+							pq.append(node);
+						}
 					} else {
 						
 							String a = title.getText();
 							String b = type.getSelectedItem().toString();
 							Date c = (Date)releaseDate.getValue();
-							Date d = null;
+							Date d = (Date)rentedDate.getValue();
 							String f = runtime.getText();
 							String g = movieFormat.getText();
 					
@@ -226,7 +250,11 @@ public class MediaGUI extends JPanel {
 					
 							Movie movie = new Movie(a, b, c, d, f, g);
 							Node node = new Node(movie);
-							ll.append(node);
+							if(movie.getRentedDate() == null) {
+								ll.append(node);
+							} else {
+								pq.append(node);
+							}
 					}
 				
 				
@@ -241,11 +269,13 @@ public class MediaGUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+				    
 					JFrame newFrame = new JFrame("Game List");
 					JPanel panel2 = new JPanel();
 					JButton edit = new JButton("Edit");
 					JButton delete = new JButton("Delete");
 					listItems = new DefaultListModel();
+					System.out.println(ll.size());
 					
 					
 	
@@ -267,10 +297,10 @@ public class MediaGUI extends JPanel {
 					panel2.add(scrollableList);
 					panel2.add(edit, BorderLayout.SOUTH);
 					panel2.add(delete, BorderLayout.SOUTH);
-					DeleteButtonListener dbl = new DeleteButtonListener();
-					delete.addActionListener(dbl);
-					//EditButtonListener ebl = new EditButtonListener();
-					//edit.addActionListener(ebl);
+					DeleteListButtonListener dlbl = new DeleteListButtonListener();
+					delete.addActionListener(dlbl);
+					//EditListButtonListener elbl = new EditListButtonListener();
+					//edit.addActionListener(elbl);
 					newFrame.setVisible(true);
 				
 				
@@ -286,18 +316,47 @@ public class MediaGUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					// TO DO
+					JFrame newFrame2 = new JFrame("Rented List");
+					JPanel panel3 = new JPanel();
+					JButton edit = new JButton("Edit");
+					JButton delete = new JButton("Delete");
+					queueItems = new DefaultListModel();
 					
+					
+					while(!pq.isEmpty()) {
+						queueItems.addElement(pq.get());
+						
+					}
+					
+					queue = new JList(queueItems);
+					queue.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
+					JScrollPane scrollableQueue = new JScrollPane(queue);
+					
+					
+					newFrame2.setDefaultCloseOperation(newFrame2.EXIT_ON_CLOSE);
+			        newFrame2.setSize(750, 750);
+			        newFrame2.getContentPane().add(BorderLayout.CENTER, panel3);
+					
+					newFrame2.add(panel3);
+					panel3.add(scrollableQueue);
+					panel3.add(edit, BorderLayout.SOUTH);
+					panel3.add(delete, BorderLayout.SOUTH);
+					DeleteQueueButtonListener dqbl = new DeleteQueueButtonListener();
+					delete.addActionListener(dqbl);
+					//EditQueueButtonListener e1bl = new EditQueueButtonListener();
+					//edit.addActionListener(e1bl);
+					newFrame2.setVisible(true);
 				
 				
 				}  catch (Exception e1) {
 					throw e1;
 				}
+					
 				
 			}
 		}
 		
-		class DeleteButtonListener implements ActionListener {
+		class DeleteListButtonListener implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -314,7 +373,7 @@ public class MediaGUI extends JPanel {
 			}
 		}
 		
-		class EditButtonListener implements ActionListener {
+		class EditListButtonListener implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -332,7 +391,48 @@ public class MediaGUI extends JPanel {
 				
 			}
 		}
+			
+			class DeleteQueueButtonListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						
+							int i = 1;
+							pq.delete(pq.get());
+							queueItems.remove(i);
+							i++;
+							
+						
+					}  catch (Exception e1) {
+						throw e1;
+					}
+					
+				}
+			}
+			
+			class EditQueueButtonListener implements ActionListener {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						
+							//TO DO
+							
+							
+							
+							
+						
+					}  catch (Exception e1) {
+						throw e1;
+					}
+					
+				}
+			}
 }
+		
+		
+
 
 
 

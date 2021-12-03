@@ -1,16 +1,18 @@
+import java.util.Comparator;
 
-public class Node implements Comparable<Node> {
-		Node next;
-		Game data;
-		Movie data2;
+public class Node {
+	
+		//Game data;
+		//Movie data2;
+		Media data;
 		
-		public Node(Game data) {
+		public Node(Media data) {
 			this.data = data ;
 		}
 		
-		public Node(Movie data2) {
-			this.data2 = data2 ;
-		}
+	/*	public Node(Movie data) {
+			this.data2 = data ;
+		} */
 		
 
 		@Override
@@ -18,34 +20,27 @@ public class Node implements Comparable<Node> {
 			String item = "";
 			if(data != null) {
 				item += "data=" + data;
-			} else {
+			} /* else {
 				item += "data=" + data2;
-			}
+			} */
 			return item;
 		}
+		
+		class LinkedListComparator implements Comparator<Node> {
 
-		@Override
-		public int compareTo(Node node) {
-			if(node.data.getType() == "Game" && this.data.getType() == "Game") {
+			@Override
+			public int compare(Node o1, Node o2) {
+				return o1.data.getId() - o2.data.getId();
 				
-
-				if(node.data.getRentedDate().before(this.data.getRentedDate())) {
-					return 1;
-				} else {
-					return 0;
-				}
-			} else {
-				if(node.data2.getReleaseDate().before(this.data2.getReleaseDate())) {
-					return 1;
-				} else {
-					return 0;
-				}
 			}
-		}
+	       }
+
 	}
+
+
 		
 		
-	
+
 	
 
 

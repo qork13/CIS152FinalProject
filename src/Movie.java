@@ -16,7 +16,7 @@ public class Movie extends Media{
 
 	@Override
 	public String toString() {
-		return "Movie [runTime=" + runTime + ", format=" + format + ", title=" + title + ", type=" + type
+		return "Movie [runTime=" + runTime + ", format=" + format + ", id=" + id +", title=" + title + ", type=" + type
 				+ ", releaseDate=" + releaseDate + ", rentedDate=" + rentedDate + "]";
 	}
 

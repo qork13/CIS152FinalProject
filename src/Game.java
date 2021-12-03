@@ -12,8 +12,8 @@ public class Game extends Media {
 
 	@Override
 	public String toString() {
-		return "Game [system=" + system + ", genre=" + genre + ", title=" + title + ", type=" + type + ", releaseDate="
-				+ releaseDate + ", rentedDate=" + rentedDate + "]";
+		return "Game [system=" + system + ", genre=" + genre + ", id=" + id + ", title=" + title + ", type=" + type
+				+ ", releaseDate=" + releaseDate + ", rentedDate=" + rentedDate + ", getId()=" + getId() + "]";
 	}
 
 	public String getSystem() {
