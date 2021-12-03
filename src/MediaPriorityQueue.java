@@ -9,7 +9,7 @@ public class MediaPriorityQueue {
 		this.pq = new PriorityQueue<Node>(new NodeComparator());
 	}
 	
-	public void append(Node data){
+	public void enqueue(Node data){
 		pq.add(data);
 		size++;
 	}
@@ -22,8 +22,8 @@ public class MediaPriorityQueue {
 		return size;
 	}
 	
-	public void delete(Node node) {
-		 pq.remove(node);
+	public void dequeue(int i) {
+		 pq.remove(i);
 	}
 
 	public boolean isEmpty() {

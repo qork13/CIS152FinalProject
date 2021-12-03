@@ -2,13 +2,11 @@ import java.util.*;
 
 public class MediaLinkedList {
 	
-	private Node head;
 	private LinkedList<Node> ll;
 	private int size;
 	
 	public MediaLinkedList() {
 		this.ll = new LinkedList<Node>();
-		this.head = null;
 	}
 	
 	public void append(Node data){
