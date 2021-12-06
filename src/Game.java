@@ -44,8 +44,8 @@ public class Game extends Media {
 	 */
 	@Override
 	public String toString() {
-		return "ID=" + getId() + ", Type=" + type + ", Title=" + title +"System=" + system + ", Genre=" + genre +
-				 ", Release Date=" + releaseDate + ", Rented Date = " + rentedDate + "]";
+		return "ID=" + getId() + ", Type=" + type + ", Title=" + title +", System=" + system + ", Genre=" + genre +
+				 ", Release Date=" + releaseDate + ", Rented Date = " + rentedDate;
 	}
 
 	/**

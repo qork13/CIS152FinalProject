@@ -21,7 +21,7 @@ import javax.swing.WindowConstants;
 
 public class MediaProgram {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		//Creating the Frame
         JFrame frame = new JFrame("Media database");
         MediaGUI panel = new MediaGUI();
