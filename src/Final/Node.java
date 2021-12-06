@@ -1,3 +1,4 @@
+package Final;
 /**************************************************************
 * Name        : Final Project Media Program
 * Author      : Mike Smith
@@ -20,7 +21,7 @@ public class Node {
 	/**
 	 * Node variable
 	 */
-		Media data;
+		public Media data;
 		
 		/**
 		 * Node constructor using a media object
