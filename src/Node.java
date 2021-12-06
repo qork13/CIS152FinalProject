@@ -1,39 +1,49 @@
-import java.util.Comparator;
+/**************************************************************
+* Name        : Final Project Media Program
+* Author      : Mike Smith
+* Created     : 12/3/2021
+* Course      : CIS 152 Data Structures
+* Version     : 1.0
+* OS          : Windows 10
+* Copyright   : This is my own original work based on
+*               specifications issued by our instructor
+* Description : This class is the node class that the MediaLinkedList and MediaPriorityQueue will use. The Node is created using a Media Object.
+* 
+*
+* Academic Honesty: I attest that this is my original work.
+* I have not used unauthorized source code, either modified or 
+* unmodified. I have not given other fellow student(s) access to
+* my program.         
+***************************************************************/
 
 public class Node {
-	
-		//Game data;
-		//Movie data2;
+	/**
+	 * Node variable
+	 */
 		Media data;
 		
+		/**
+		 * Node constructor using a media object
+		 * @param data
+		 */
 		public Node(Media data) {
 			this.data = data ;
 		}
 		
-	/*	public Node(Movie data) {
-			this.data2 = data ;
-		} */
+	
 		
-
+		/**
+		 * ToString for troubleshooting
+		 */
 		@Override
 		public String toString() {
 			String item = "";
 			if(data != null) {
 				item += "data=" + data;
-			} /* else {
-				item += "data=" + data2;
-			} */
+			} 
 			return item;
 		}
 		
-		class LinkedListComparator implements Comparator<Node> {
-
-			@Override
-			public int compare(Node o1, Node o2) {
-				return o1.data.getId() - o2.data.getId();
-				
-			}
-	       }
 
 	}
 
