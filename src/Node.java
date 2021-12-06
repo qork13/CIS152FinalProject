@@ -1,51 +1,56 @@
+/**************************************************************
+* Name        : Final Project Media Program
+* Author      : Mike Smith
+* Created     : 12/3/2021
+* Course      : CIS 152 Data Structures
+* Version     : 1.0
+* OS          : Windows 10
+* Copyright   : This is my own original work based on
+*               specifications issued by our instructor
+* Description : This class is the node class that the MediaLinkedList and MediaPriorityQueue will use. The Node is created using a Media Object.
+* 
+*
+* Academic Honesty: I attest that this is my original work.
+* I have not used unauthorized source code, either modified or 
+* unmodified. I have not given other fellow student(s) access to
+* my program.         
+***************************************************************/
 
-public class Node implements Comparable<Node> {
-		Node next;
-		Game data;
-		Movie data2;
+public class Node {
+	/**
+	 * Node variable
+	 */
+		Media data;
 		
-		public Node(Game data) {
+		/**
+		 * Node constructor using a media object
+		 * @param data
+		 */
+		public Node(Media data) {
 			this.data = data ;
 		}
 		
-		public Node(Movie data2) {
-			this.data2 = data2 ;
-		}
+	
 		
-
+		/**
+		 * ToString for troubleshooting
+		 */
 		@Override
 		public String toString() {
 			String item = "";
 			if(data != null) {
 				item += "data=" + data;
-			} else {
-				item += "data=" + data2;
-			}
+			} 
 			return item;
 		}
+		
 
-		@Override
-		public int compareTo(Node node) {
-			if(node.data.getType() == "Game" && this.data.getType() == "Game") {
-				
-
-				if(node.data.getRentedDate().before(this.data.getRentedDate())) {
-					return 1;
-				} else {
-					return 0;
-				}
-			} else {
-				if(node.data2.getReleaseDate().before(this.data2.getReleaseDate())) {
-					return 1;
-				} else {
-					return 0;
-				}
-			}
-		}
 	}
+
+
 		
 		
-	
+
 	
 
 
