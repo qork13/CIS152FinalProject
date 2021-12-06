@@ -33,16 +33,16 @@ public class Node {
 	
 		
 		/**
-		 * ToString for troubleshooting
+		 * ToString
 		 */
 		@Override
 		public String toString() {
 			String item = "";
 			if(data != null) {
-				item += "data=" + data;
+				item +=  data;
 			} 
 			return item;
-		}
+		} 
 		
 
 	}

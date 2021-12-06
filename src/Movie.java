@@ -43,7 +43,7 @@ public class Movie extends Media {
 	 */
 	@Override
 	public String toString() {
-		return "Id=" + getId() + ", Type=" + type + ", Title=" + title +", Format=" + format + ", Run Time=" + runTime
+		return "ID=" + getId() + ", Type=" + type + ", Title=" + title +", Format=" + format + ", Run Time=" + runTime
 				+ ", Release Date=" + releaseDate + ", RentedDate=" + rentedDate;
 	}
 

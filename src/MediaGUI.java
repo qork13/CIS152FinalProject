@@ -24,6 +24,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -101,13 +102,68 @@ public class MediaGUI extends JPanel {
 	/**
 	 * Media GUI constructor that will assign label the variables instantiated above and 
 	 * then add them to the JFrame that is created in the MediaProgram.java class.
+	 * @throws Exception 
 	 */
-	 public MediaGUI() {
+	 public MediaGUI() throws Exception {
 
-	        
+	        /**
+	         * Add default items so view list can be looked at for both LL and PQ
+	         */
+		 try {
+			 /**
+			  * Set games and movies release date and rented dates
+			  */
+		 	String gDate1 = "04-20-2018";
+		 	Date date1 = new SimpleDateFormat("MM-dd-yyyy"). parse(gDate1);
+		 	String gDate2 = "08-27-1987";
+		 	Date date2= new SimpleDateFormat("MM-dd-yyyy"). parse(gDate2);
+		 	String mDate1 = "11-25-1987";
+		 	Date date3 = new SimpleDateFormat("MM-dd-yyyy"). parse(mDate1);
+		 	String mDate2 = "04-12-1988";
+		 	Date date4= new SimpleDateFormat("MM-dd-yyyy"). parse(mDate2);
+		 	String rDate1 = "03-08-2021";
+		 	Date rentedDate1 = new SimpleDateFormat("MM-dd-yyyy"). parse(rDate1);
+		 	String rDate2 = "04-02-1995";
+		 	Date rentedDate2= new SimpleDateFormat("MM-dd-yyyy"). parse(rDate2);
+		 	String rDate3 = "02-08-2020";
+		 	Date rentedDate3 = new SimpleDateFormat("MM-dd-yyyy"). parse(rDate3);
+		 	String rDate4 = "10-02-1989";
+		 	Date rentedDate4= new SimpleDateFormat("MM-dd-yyyy"). parse(rDate4);
+		 
+		 	/**
+		 	 * Add games to both ll and pq by default
+		 	 */
+		 	Game game1 = new Game("God of War", "Game", date1, null, "PS4", "Action/Adventure");
+		 	Game game2 = new Game("The Legend of Zelda", "Game", date2, null, "NES", "Adventure");
+		 	Game rGame1 = new Game("God of War", "Game", date1, rentedDate1, "PS4", "Action/Adventure");
+		 	Game rGame2 = new Game("The Legend of Zelda", "Game", date2, rentedDate2, "NES", "Adventure");
+		 	Node gNode1 = new Node(game1);
+		 	Node gNode2 = new Node(game2);
+		 	Node rNode1 = new Node(rGame1);
+		 	Node rNode2 = new Node(rGame2);
+		 	ll.append(gNode1);
+		 	ll.append(gNode2);
+		 	pq.enqueue(rNode1);
+		 	pq.enqueue(rNode2);
 		 	
-	        
-	        
+		 	/**
+		 	 * Add movies to both ll and pq by default
+		 	 */
+	        Movie movie1 = new Movie("Planes, Trains, and Automobiles", "Movie", date3, null, "92 mins", "Blu-Ray");
+	        Movie movie2 = new Movie("Die Hard", "Movie", date4, null, "132 mins", "4K Blu-Ray");
+	        Movie rMovie1 = new Movie("Planes, Trains, and Automobiles", "Movie", date3, rentedDate3, "92 mins", "Blu-Ray");
+	        Movie rMovie2 = new Movie("Die Hard", "Movie", date4, rentedDate4, "132 mins", "4K Blu-Ray");
+	        Node mNode1 = new Node(movie1);
+		 	Node mNode2 = new Node(movie2);
+		 	Node rmNode1 = new Node(rMovie1);
+		 	Node rmNode2 = new Node(rMovie2);
+		 	ll.append(mNode1);
+		 	ll.append(mNode2);
+		 	pq.enqueue(rmNode1);
+		 	pq.enqueue(rmNode2);
+	 	} catch (Exception e) {
+	 		throw e;
+	 	}
 	        /**
 	         * Set Date fields to 10 column width
 	         */
@@ -312,23 +368,29 @@ public class MediaGUI extends JPanel {
 					 * and a new Node for the LinkedList/PriorityQueue and passing the Game object in.
 					 */
 					if(type.getSelectedItem().toString() == "Game") {
-						String a = title.getText();
-						String b = type.getSelectedItem().toString();
-						Date c = (Date)releaseDate.getValue();
-						Date d = (Date)rentedDate.getValue();
-						String f = system.getText();
-						String g = genre.getText();
+						if(title.getText().isEmpty() || system.getText().isEmpty() && genre.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Please enter a title and a system or genre!");
+						} else {
+							String a = title.getText();
+							String b = type.getSelectedItem().toString();
+							Date c = (Date)releaseDate.getValue();
+							Date d = (Date)rentedDate.getValue();
+							String f = system.getText();
+							String g = genre.getText();
+							
+							
 				
-						Game game = new Game(a, b, c, d, f, g);
-						Node node = new Node(game);
+							Game game = new Game(a, b, c, d, f, g);
+							Node node = new Node(game);
 						/**
 						 * Check to see if the user filled out the rented date if they did not it goes to the LinkedList data
 						 * structure otherwise it will get put in the Priority Queue in the ascending Date order.
 						 */
-						if(game.getRentedDate() == null) {
-							ll.append(node);
-						} else {
-							pq.enqueue(node);
+							if(game.getRentedDate() == null) {
+								ll.append(node);
+							} else {
+								pq.enqueue(node);
+							}
 						}
 						/**
 						 * If the type is not a Game then it is a Movie and has the runtime and movieFormat fields. Setting variables
@@ -336,7 +398,9 @@ public class MediaGUI extends JPanel {
 						 * add to the LinkedList/Priority Queue.
 						 */
 					} else {
-						
+						if(title.getText().isEmpty() ||  runtime.getText().isEmpty() && movieFormat.getText().isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Please enter a title and a runtime or movie format!");
+						} else {
 							String a = title.getText();
 							String b = type.getSelectedItem().toString();
 							Date c = (Date)releaseDate.getValue();
@@ -350,17 +414,19 @@ public class MediaGUI extends JPanel {
 							 * Check to see if the user filled out the rented date if they did not it goes to the LinkedList data
 							 * structure otherwise it will get put in the Priority Queue in the ascending Date order.
 							 */
-							if(movie.getRentedDate() == null) {
-								ll.append(node);
-							} else {
-								pq.enqueue(node);
-							}
+								if(movie.getRentedDate() == null) {
+									ll.append(node);
+								} else {
+									pq.enqueue(node);
+								}
+						}
 					}
 				
 				/**
 				 * Throw exception and pop up dialog box message if failed
 				 */
 				}  catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Oops! Something went wrong adding your media!");
 					throw e1;
 				}
 				
@@ -410,11 +476,11 @@ public class MediaGUI extends JPanel {
 					 */
 					JScrollPane scrollableList = new JScrollPane(list);
 					newFrame.setDefaultCloseOperation(newFrame.DISPOSE_ON_CLOSE);
-			        newFrame.setSize(750, 750);
+			        newFrame.setSize(1200, 750);
 			        newFrame.getContentPane().add(BorderLayout.CENTER, panel2);
 					newFrame.add(panel2);
 					panel2.add(scrollableList);
-					panel2.add(edit, BorderLayout.SOUTH);
+					//panel2.add(edit, BorderLayout.SOUTH);
 					panel2.add(delete, BorderLayout.SOUTH);
 					DeleteListButtonListener dlbl = new DeleteListButtonListener();
 					delete.addActionListener(dlbl);
@@ -428,6 +494,7 @@ public class MediaGUI extends JPanel {
 					 * Catch exception and display a dialog box pop up and catch the stack trace in console.
 					 */
 				}  catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Oops! Something went wrong trying to display your list of media!");
 					throw e1;
 				}
 				
@@ -476,16 +543,16 @@ public class MediaGUI extends JPanel {
 					 */
 					JScrollPane scrollableQueue = new JScrollPane(queue);
 					newFrame2.setDefaultCloseOperation(newFrame2.DISPOSE_ON_CLOSE);
-			        newFrame2.setSize(750, 750);
+			        newFrame2.setSize(1200, 750);
 			        newFrame2.getContentPane().add(BorderLayout.CENTER, panel3);
 					newFrame2.add(panel3);
 					panel3.add(scrollableQueue);
-					panel3.add(edit, BorderLayout.SOUTH);
+					//panel3.add(edit, BorderLayout.SOUTH);
 					panel3.add(delete, BorderLayout.SOUTH);
 					DeleteQueueButtonListener dqbl = new DeleteQueueButtonListener();
 					delete.addActionListener(dqbl);
 					newFrame2.setVisible(true);
-					newFrame2.setVisible(true);
+					
 					
 					//TODO
 					//EditQueueButtonListener e1bl = new EditQueueButtonListener();
@@ -495,6 +562,7 @@ public class MediaGUI extends JPanel {
 					 * Catch for if something goes wrong a dialog box will pop up and the stack trace will be captured in the console
 					 */
 				}  catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Oops! Something went wrong trying to display your rented media!");
 					throw e1;
 				}
 					
@@ -522,6 +590,7 @@ public class MediaGUI extends JPanel {
 						 * Catch for if something goes wrong, a dialog box will pop up and the stack trace is captured in the console
 						 */
 				}  catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Oops! Something went wrong trying to delete an item!");
 					throw e1;
 				}
 				
@@ -570,6 +639,7 @@ public class MediaGUI extends JPanel {
 						 * Catch if it fails, will throw a dialog box and capture the stack trace in the console.
 						 */
 					}  catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, "Oops! Something went wrong trying to remove a rented item!");
 						throw e1;
 					}
 					
