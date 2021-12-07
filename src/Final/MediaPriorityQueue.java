@@ -1,3 +1,4 @@
+package Final;
 /**************************************************************
 * Name        : Final Project Media Program
 * Author      : Mike Smith
@@ -15,6 +16,7 @@
 * my program.         
 ***************************************************************/
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 
 
@@ -45,9 +47,10 @@ public class MediaPriorityQueue {
 	 * Gets element at the head of the queue
 	 * @return
 	 */
-	public Node get(){
-			return pq.poll();
+	public Node get() {
+			return pq.peek();
 	}
+	
 	
 	/**
 	 * Returns the size of the queue
@@ -58,13 +61,16 @@ public class MediaPriorityQueue {
 	}
 	
 	/**
-	 * Will remove element from the queue at location i
-	 * @param i
+	 * Will remove element from the head of the queue that has highest priority
+	 * 
 	 */
-	@SuppressWarnings("unlikely-arg-type")
-	public void dequeue(int i) {
-		 pq.remove(i);
+	
+	public void dequeue() {
+		
+		 pq.remove();
+		 size--;
 	}
+	
 	
 	/**
 	 * Checks if queue is empty
@@ -116,11 +122,15 @@ public class MediaPriorityQueue {
 				}
 			} 
 		}
-	} 
+	}
+
+	public Iterator<Node> iterator() {
+		return pq.iterator();
 		
-	
-	
-	
+	}
+
+
+		
 	
  }
 

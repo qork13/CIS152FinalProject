@@ -1,3 +1,4 @@
+package Final;
 /**************************************************************
 * Name        : Final Project Media Program
 * Author      : Mike Smith
@@ -26,6 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Iterator;
 
 
 @SuppressWarnings("serial")
@@ -482,6 +484,8 @@ public class MediaGUI extends JPanel {
 					panel2.add(scrollableList);
 					//panel2.add(edit, BorderLayout.SOUTH);
 					panel2.add(delete, BorderLayout.SOUTH);
+					JLabel info = new JLabel("To delete click on item and click delete");
+					panel2.add(info);
 					DeleteListButtonListener dlbl = new DeleteListButtonListener();
 					delete.addActionListener(dlbl);
 					newFrame.setVisible(true);
@@ -521,14 +525,20 @@ public class MediaGUI extends JPanel {
 					JPanel panel3 = new JPanel();
 					JButton edit = new JButton("Edit");
 					JButton delete = new JButton("Delete");
-					queueItems = new DefaultListModel();
+					queueItems = new DefaultListModel<>();
+					Iterator it = pq.iterator();
 					
 					/**
 					 * loop through priority queue and add items to queueItems variable.
 					 */
-					while(!pq.isEmpty()) {
-						queueItems.addElement(pq.get());
+					
+					while(it.hasNext()) {
+						queueItems.addElement(it.next());
 					}
+					
+					
+					
+					
 					
 					/**
 					 * Create a new JList using the queueItems variable and set the List to only allow one
@@ -537,21 +547,29 @@ public class MediaGUI extends JPanel {
 					queue = new JList(queueItems);
 					queue.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
 					
+					
+					
+					
+					
 					/**
 					 * Create a scrollpane using items from queue to allow for scrolling through the queue if its too 
 					 * big for the screen. Configure frame, add list, 2 buttons and button listeners to the panel and then display the list. 
 					 */
 					JScrollPane scrollableQueue = new JScrollPane(queue);
-					newFrame2.setDefaultCloseOperation(newFrame2.DISPOSE_ON_CLOSE);
+					scrollableQueue.setViewportView(queue);
 			        newFrame2.setSize(1200, 750);
 			        newFrame2.getContentPane().add(BorderLayout.CENTER, panel3);
 					newFrame2.add(panel3);
 					panel3.add(scrollableQueue);
+					
 					//panel3.add(edit, BorderLayout.SOUTH);
 					panel3.add(delete, BorderLayout.SOUTH);
+					JLabel info = new JLabel("To remove first item, click Delete");
+					panel3.add(info);
 					DeleteQueueButtonListener dqbl = new DeleteQueueButtonListener();
 					delete.addActionListener(dqbl);
 					newFrame2.setVisible(true);
+					newFrame2.setDefaultCloseOperation(newFrame2.DISPOSE_ON_CLOSE);
 					
 					
 					//TODO
@@ -631,8 +649,8 @@ public class MediaGUI extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					try {
 							
-							pq.dequeue(queue.getSelectedIndex());
-							queueItems.remove(queue.getSelectedIndex());
+							pq.dequeue();
+							queueItems.remove(0);
 							
 							
 						/**
