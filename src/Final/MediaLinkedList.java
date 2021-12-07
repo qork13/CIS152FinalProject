@@ -67,11 +67,11 @@ public class MediaLinkedList {
 		size--;
 	}
 	
-	//TODO edit
+/*	//TODO edit
 	public void set(int i, Node node) {
 		ll.set(i, node);
 	}
-	
+*/	
 	public boolean isEmpty() {
 		return ll.isEmpty();
 	}
